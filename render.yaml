@@ -15,7 +15,6 @@ services:
           property: connectionString
       - key: ODOO_PASSWORD
         generateValue: true
-    mountPath: /var/lib/odoo
     disk:
       name: odoo-data
       mountPath: /var/lib/odoo
