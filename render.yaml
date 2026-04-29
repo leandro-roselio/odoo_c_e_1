@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: odoo-corplex
+    env: docker
+    plan: starter # Odoo needs at least starter (512MB/1GB) or better
+    region: ohio # Adjust as needed
+    dockerContext: .
+    dockerfilePath: deployment/Dockerfile
+    envVars:
+      - key: PORT
+        value: 8069
+      - key: DATABASE_URL
+        fromDatabase:
+          name: odoo-db
+          property: connectionString
+      - key: ODOO_PASSWORD
+        generateValue: true
+    mountPath: /var/lib/odoo
+    disk:
+      name: odoo-data
+      mountPath: /var/lib/odoo
+      sizeGB: 10
+
+databases:
+  - name: odoo-db
+    plan: free # Can upgrade to starter for production
+    databaseName: odoo
+    user: odoo
