@@ -2,14 +2,16 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile
     depends_on:
       - db
     ports:
       - "8069:8069"
     volumes:
       - odoo-web-data:/var/lib/odoo
-      - ./config:/etc/odoo
+      - ./deployment/config:/etc/odoo
       - ./addons:/mnt/extra-addons
     environment:
       - HOST=db
@@ -23,7 +25,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./deployment/nginx:/etc/nginx/conf.d
     depends_on:
       - web
     restart: always
